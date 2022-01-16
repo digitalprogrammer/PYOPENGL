@@ -1,7 +1,10 @@
 from math import cos, pi, sin, tan
+from turtle import right
 
 import numpy
+from numpy import cross, divide, rint, subtract
 from numpy.lib.function_base import angle
+from numpy.linalg import norm
 
 
 class Matrix(object):
@@ -94,5 +97,41 @@ class Matrix(object):
                 [0, 0, -1, 0]
             ]
         ).astype(float)
+
+    @staticmethod
+    def makeLookAt(position, target):
+        worldUp = [0,1,0]
+        forward = subtract(target, position)
+        right = cross(forward, worldUp)
+
+        #if forward and worldup vectors are parallel right vector is zero
+        #fix by perturbing worldUp vector a bit
+        if norm(right) < 0.001:
+            offset = numpy.array([0.001, 0, 0])
+            right = cross(forward, worldUp+offset)
+
+        up = cross(right, forward)
+        #all vectors should have length 1
+        forward = divide(forward, norm(forward))
+        right = divide(right, norm(right))
+        up = divide(up, norm(up))
+
+        return numpy.array([
+            [right[0], up[0], -forward[0], position[0]],
+            [right[1], up[1], -forward[1], position[1]],
+            [right[2], up[2], -forward[2], position[2]],
+            [0, 0, 0, 1]
+
+        ])
     
+    @staticmethod
+    def makeOrthographic(left=-1, right=1, bottom=-1, top=1, near=-1, far=1):
+        return numpy.array(
+            [
+                [2 / (right-left), 0, 0, -(right+left)/(right-left)],
+                [0, 2 / (top-bottom), 0, -(top+bottom)/(top-bottom)],
+                [0, 0, -2 / (far-near), -(far+near)/(far-near)],
+                [0, 0, 0, 1]
+            ]
+        )
     

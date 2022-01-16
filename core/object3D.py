@@ -89,5 +89,9 @@ class Object3D(object):
             worldTransform.item((1,3)),
             worldTransform.item((2,3))
         ]
+    
+
+    def lookAt(self, targetPosition):
+        self.transform = Matrix.makeLookAt(self.getWorldPosition(), targetPosition)
 
 
