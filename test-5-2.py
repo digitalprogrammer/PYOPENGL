@@ -25,11 +25,15 @@ class Test(Base):
         self.rig.add(self.camera)
         self.scene.add(self.rig)
         self.rig.setPosition([0,1,4])
+        
+        
         skyGeometry = SphereGeometry(radius=50)
         earthTexture = Texture("images/sky-earth.png")
         skyMaterial = TextureMaterial(earthTexture)
         sky = Mesh(skyGeometry, skyMaterial)
         self.scene.add(sky)
+        
+        
         grassGeometry = RectangleGeometry(width=100, height=100)
         grassTexture = Texture("images/grass.png")
         grassMaterial = TextureMaterial(grassTexture, {"repeatUV":[50,50]})

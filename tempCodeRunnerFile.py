@@ -1,4 +1,2 @@
-
-        self.renderer = Renderer()
-        self.scene = Scene()
-        self.camera = Camera(aspectRatio=800
+      bumpMaterial = LambertMaterial(texture=colorTex, bumpTexture=bumpTex, properties={"bumpStrength":1})
+        mesh = Mesh(geometry, bumpMaterial)

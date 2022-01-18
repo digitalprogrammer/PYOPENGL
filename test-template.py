@@ -5,6 +5,13 @@ from core.renderer import Renderer
 from core.scene import Scene
 from core.texture import Texture
 from geometry.boxGeometry import BoxGeometry
+from geometry.sphereGeometry import SphereGeometry
+from light.ambientLight import AmbientLight
+from light.directionalLight import DirectionalLight
+from light.pointLight import PointLight
+from material.flatMaterial import FlatMaterial
+from material.lambertMaterial import LambertMaterial
+from material.phongMaterial import PhongMaterial
 from material.surfaceMaterial import SurfaceMaterial
 from material.textureMaterial import TextureMaterial
 

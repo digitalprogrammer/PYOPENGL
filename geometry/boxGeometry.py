@@ -38,4 +38,12 @@ class BoxGeometry(Geometry):
         uvData = [t0,t1,t3, t0,t3,t2] * 6
         self.addAttribute("vec2", "vertexUV", uvData)
 
+        #normal vectors for x+, x-, y+, y-, z+, z-
+        n1, n2 = [1,0,0], [-1,0,0]
+        n3, n4 = [0,1,0], [0,-1,0]
+        n5, n6 = [0,0,1], [0,0,-1]
+        normalData = [n1] * 6 + [n2] * 6 + [n3] * 6 + [n4] * 6 + [n5] * 6 + [n6] * 6
+        self.addAttribute("vec3", "vertexNormal", normalData)
+        self.addAttribute("vec3", "faceNormal", normalData)
+
         self.countVertices()

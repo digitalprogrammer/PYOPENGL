@@ -1,4 +1,5 @@
 import pygame
+from light.light import Light
 from OpenGL.GL import *
 
 from core.mesh import Mesh
@@ -42,6 +43,13 @@ class Renderer(object):
         meshFilter = lambda x : isinstance(x, Mesh)
         meshList = list(filter(meshFilter, descendantList))
 
+        lightFilter = lambda x : isinstance(x, Light)
+        lightList = list(filter(lightFilter, descendantList))
+
+        #scenes support 4 lights; precisely 4 must be present 
+        while len(lightList) < 4:
+            lightList.append(Light())
+
         for mesh in meshList:
             #if this object is not visible continue to next object in list
             if not mesh.visible:
@@ -56,6 +64,16 @@ class Renderer(object):
             mesh.material.uniforms["modelMatrix"].data = mesh.getWorldMatrix()
             mesh.material.uniforms["viewMatrix"].data = camera.viewMatrix
             mesh.material.uniforms["projectionMatrix"].data = camera.projectionMatrix
+
+            #if material uses light data, add lights from list
+            if "light0" in mesh.material.uniforms.keys():
+                for lightNumber in range(4):
+                    lightName = "light" + str(lightNumber)
+                    lightObject = lightList[lightNumber]
+                    mesh.material.uniforms[lightName].data = lightObject
+            #add camera position if needed (specular lighting)
+            if "viewPosition" in mesh.material.uniforms.keys():
+                mesh.material.uniforms["viewPosition"].data = camera.getWorldPosition()
 
             #update uniforms stored in material 
             for variableName, uniformObject in mesh.material.uniforms.items():
